@@ -1,9 +1,7 @@
 # Nalanda Library Management System
 
 ## Overview
-=> Nalanda Library Management System is a backend system designed to manage library operations.
-=> It includes functionalities for user management, book management, and borrowing system. 
-=> This system supports  RESTful  APIs built with Node.js, Express, and MongoDB.
+Nalanda Library Management System is a backend system designed to manage library operations. It includes functionalities for user management, book management, and borrowing system.  This system supports  RESTful  APIs built with Node.js, Express, and MongoDB.
 
 ## Tech Stack
 - **Node.js**: JavaScript runtime for server-side development.
@@ -36,7 +34,7 @@
   - Total number of books.
   - Number of borrowed books.
   - Number of available books.
-  - 
+   
 ## Installation
 
 1. **Clone the repository**:
