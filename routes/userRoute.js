@@ -11,7 +11,7 @@ const {
 const isAuth = require('../middlewares/Auth');
 const Admin = require("../middlewares/Admin")
 // Get all users
-router.get('/all', Admin,getAllUsers);
+router.get('/all',isAuth, Admin,getAllUsers);
 
 // Register new user
 router.post('/register', register);
