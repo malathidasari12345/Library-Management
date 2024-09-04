@@ -8,12 +8,29 @@ const getMostBorrowedBooks = async (req, res) => {
     const mostBorrowedBooks = await Borrow.aggregate([
       { $group: { _id: "$book", borrowCount: { $sum: 1 } } },
       { $sort: { borrowCount: -1 } },
-      { $limit: 10 }
+      { $limit: 10 },
+      {
+        $lookup: {
+          from: "books",
+          localField: "_id",
+          foreignField: "_id",
+          as: "bookDetails"
+        }
+      },
+      { $unwind: "$bookDetails" },
+      {
+        $project: {
+          _id: 0,
+          bookId: "$_id",
+          title: "$bookDetails.title",
+          author: "$bookDetails.author",
+          borrowCount: 1
+        }
+      }
     ]);
-    const books = await Book.find({ _id: { $in: mostBorrowedBooks.map(b => b._id) } });
-    res.json(books);
+    res.json(mostBorrowedBooks);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: `Failed to get most borrowed books: ${error.message}` });
   }
 };
 
@@ -23,14 +40,32 @@ const getActiveMembers = async (req, res) => {
     const activeMembers = await Borrow.aggregate([
       { $group: { _id: "$user", borrowCount: { $sum: 1 } } },
       { $sort: { borrowCount: -1 } },
-      { $limit: 10 }
+      { $limit: 10 },
+      {
+        $lookup: {
+          from: "users",
+          localField: "_id",
+          foreignField: "_id",
+          as: "userDetails"
+        }
+      },
+      { $unwind: "$userDetails" }, 
+      {
+        $project: {
+          _id: 0,
+          userId: "$_id",
+          name: "$userDetails.name",
+          email: "$userDetails.email",
+          borrowCount: 1
+        }
+      }
     ]);
-    const members = await User.find({ _id: { $in: activeMembers.map(m => m._id) } });
-    res.json(members);
+    res.json(activeMembers);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: `Failed to get active members: ${error.message}` });
   }
 };
+
 
 // Book Availability Report
 const getBookAvailability = async (req, res) => {
@@ -75,9 +110,7 @@ const getBookAvailability = async (req, res) => {
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
-  };
-  
-     
+  }; 
 module.exports ={
     getMostBorrowedBooks,
     getActiveMembers,
