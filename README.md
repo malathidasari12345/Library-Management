@@ -31,8 +31,6 @@ Nalanda Library Management System is a backend system designed to manage library
 
 ### Reporting
 - **Book Availability**: Provide a summary report of book availability, including:
-  - Total number of books.
-  - Number of borrowed books.
   - Number of available books.
    
 ## Installation
