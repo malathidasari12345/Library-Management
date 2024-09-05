@@ -6,7 +6,7 @@ const router = express.Router();
 
 
 router.post('/borrowbook',isAuth, isMember, borrowBook);  
-router.put('/return/:id',isAuth, isMember, returnBook);  
+router.post('/return/:id', isAuth, isMember, returnBook);
 router.get('/history',isAuth, isMember, borrowHistory);  
 
 module.exports = router;

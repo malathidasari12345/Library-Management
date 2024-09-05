@@ -92,17 +92,21 @@ const borrowHistory = async (req, res) => {
         const borrows = await Borrow.find({ userid: userId })
             .populate('bookid', 'title') 
             .populate('userid', 'name'); 
-
+//    console.log(borrows)
         const history = borrows.map(borrow => ({
-            bookName: borrow.bookname,
-            username: borrow.username,
-            userid: borrow.userid._id,
-            bookid: borrow.bookid._id,
+           borrowid:borrow._id,
+           bookName: borrow.bookname,
+           bookid: borrow.bookid,
+           username: borrow.username,
             borrowedDate: borrow.borrowedAt,
             returnedDate: borrow.returnedAt
         }));
 
-        return res.json(history);
+        return res.status(200).json({
+            success: true,
+            count: history.length,
+            history: history
+        });
     } catch (error) {
         console.error('Error fetching borrow history:', error);
         return res.status(500).json({
@@ -112,6 +116,7 @@ const borrowHistory = async (req, res) => {
         });
     }
 };
+
 
 module.exports = {
     borrowHistory,

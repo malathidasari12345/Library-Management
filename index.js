@@ -20,5 +20,5 @@ app.use("/borrow",borrowRouter)
 app.use("/report",reportRouter)
 const Port = process.env.PORT
 app.listen(Port,()=>{
-    console.log("hello")
+    console.log("server listening")
 })
